@@ -1,5 +1,5 @@
 {
-  "name": "@resvg/resvg-js-linux-arm-gnueabihf",
+  "name": "@resvg-forknotforpublish/resvg-js-forknotforpublish-linux-arm-gnueabihf",
   "version": "2.6.2",
   "os": [
     "linux"
@@ -7,9 +7,9 @@
   "cpu": [
     "arm"
   ],
-  "main": "resvgjs.linux-arm-gnueabihf.node",
+  "main": "resvg-js-forknotforpublish.linux-arm-gnueabihf.node",
   "files": [
-    "resvgjs.linux-arm-gnueabihf.node"
+    "resvg-js-forknotforpublish.linux-arm-gnueabihf.node"
   ],
   "description": "A high-performance SVG renderer and toolkit, powered by Rust based resvg and napi-rs",
   "keywords": [

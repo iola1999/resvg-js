@@ -1,3 +1,3 @@
-# `@resvg/resvg-js-linux-x64-gnu`
+# `@resvg-forknotforpublish/resvg-js-forknotforpublish-linux-x64-gnu`
 
-This is the **x86_64-unknown-linux-gnu** binary for `@resvg/resvg-js`
+This is the **x86_64-unknown-linux-gnu** binary for `@resvg-forknotforpublish/resvg-js-forknotforpublish`

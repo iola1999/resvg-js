@@ -1,5 +1,5 @@
 {
-  "name": "@resvg/resvg-js-win32-x64-msvc",
+  "name": "@resvg-forknotforpublish/resvg-js-forknotforpublish-win32-x64-msvc",
   "version": "2.6.2",
   "os": [
     "win32"
@@ -7,9 +7,9 @@
   "cpu": [
     "x64"
   ],
-  "main": "resvgjs.win32-x64-msvc.node",
+  "main": "resvg-js-forknotforpublish.win32-x64-msvc.node",
   "files": [
-    "resvgjs.win32-x64-msvc.node"
+    "resvg-js-forknotforpublish.win32-x64-msvc.node"
   ],
   "description": "A high-performance SVG renderer and toolkit, powered by Rust based resvg and napi-rs",
   "keywords": [

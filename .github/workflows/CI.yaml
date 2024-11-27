@@ -1,25 +1,21 @@
 name: CI
-
 env:
   DEBUG: napi:*
-  APP_NAME: resvgjs
-  MACOSX_DEPLOYMENT_TARGET: '10.13'
-
-'on':
+  APP_NAME: resvg-js-forknotforpublish
+  MACOSX_DEPLOYMENT_TARGET: "10.13"
+"on":
   push:
     branches:
       - main
     tags-ignore:
-      - '**'
-    # 忽略以下文件
+      - "**"
     paths-ignore:
-      - '**.md'
-      - 'LICENSE'
-      - '**/*.gitignore'
-      - '.editorconfig'
-      - 'docs/**'
-      - 'example/*.png'
-
+      - "**.md"
+      - LICENSE
+      - "**/*.gitignore"
+      - .editorconfig
+      - docs/**
+      - example/*.png
   pull_request: null
 jobs:
   build:
@@ -44,7 +40,6 @@ jobs:
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
-            # Rust nightly 需要 rustup target add …
             build: |-
               set -e &&
               rustup target add x86_64-unknown-linux-gnu &&
@@ -156,9 +151,8 @@ jobs:
         if: ${{ matrix.settings.docker }}
         with:
           image: ${{ matrix.settings.docker }}
-          options: '--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build'
+          options: "--user 0:0 -v ${{ github.workspace }}/.cargo-cache/git/db:/usr/local/cargo/git/db -v ${{ github.workspace }}/.cargo/registry/cache:/usr/local/cargo/registry/cache -v ${{ github.workspace }}/.cargo/registry/index:/usr/local/cargo/registry/index -v ${{ github.workspace }}:/build -w /build"
           run: ${{ matrix.settings.build }}
-
       - name: Build
         run: ${{ matrix.settings.build }}
         if: ${{ !matrix.settings.docker }}
@@ -169,52 +163,41 @@ jobs:
           name: bindings-${{ matrix.settings.target }}
           path: ${{ env.APP_NAME }}.*.node
           if-no-files-found: error
-
   build-wasm:
     name: Build and test Wasm - node@${{ matrix.node }}(Linux-x64-gnu)
     strategy:
       fail-fast: false
       matrix:
         node:
-          - '16'
-          - '18'
-          - '20'
-
+          - "16"
+          - "18"
+          - "20"
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-
       - name: Install
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           override: true
-
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2
         with:
           key: ${{ matrix.settings.target }}-node@14-cargo-cache
-
       - name: Install wasm-pack
         uses: jetli/wasm-pack-action@v0.4.0
         with:
-          version: 'latest'
-
+          version: latest
       - name: Install dependencies
         run: yarn install
-
       - name: Build Wasm
         run: yarn build:wasm
-
       - name: Test Wasm
         run: yarn test:wasm
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         if: ${{ matrix.node == '20' }}
@@ -223,13 +206,11 @@ jobs:
           path: wasm/dist/*.wasm
           if-no-files-found: error
           overwrite: true
-
       - name: List packages
         run: |
           ls -R ./wasm
           ls -lt ./wasm/index_bg.wasm
         shell: bash
-
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
     needs:
@@ -241,9 +222,9 @@ jobs:
           - host: windows-latest
             target: x86_64-pc-windows-msvc
         node:
-          - '16'
-          - '18'
-          - '20'
+          - "16"
+          - "18"
+          - "20"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
@@ -272,9 +253,9 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - '16'
-          - '18'
-          - '20'
+          - "16"
+          - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -303,9 +284,9 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - '16'
-          - '18'
-          - '20'
+          - "16"
+          - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -336,9 +317,9 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - '16'
-          - '18'
-          - '20'
+          - "16"
+          - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -364,7 +345,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: node:${{ matrix.node }}-slim
-          options: '--platform linux/arm64 -v /usr/share/fonts:/usr/share/fonts -v ${{ github.workspace }}:/build -w /build'
+          options: "--platform linux/arm64 -v /usr/share/fonts:/usr/share/fonts -v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
             find /usr/share/fonts -name *.ttf
@@ -378,9 +359,9 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - '16'
-          - '18'
-          - '20'
+          - "16"
+          - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -406,7 +387,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: node:${{ matrix.node }}-alpine
-          options: '--platform linux/arm64 -v /usr/share/fonts:/usr/share/fonts -v ${{ github.workspace }}:/build -w /build'
+          options: "--platform linux/arm64 -v /usr/share/fonts:/usr/share/fonts -v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
             find /usr/share/fonts -name *.ttf
@@ -419,9 +400,9 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - '16'
-          - '18'
-          - '20'
+          - "16"
+          - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -446,77 +427,73 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: node:${{ matrix.node }}-bullseye-slim
-          options: '--platform linux/arm/v7 -v /usr/share/fonts:/usr/share/fonts -v ${{ github.workspace }}:/build -w /build'
+          options: "--platform linux/arm/v7 -v /usr/share/fonts:/usr/share/fonts -v ${{ github.workspace }}:/build -w /build"
           run: |
             set -e
             find /usr/share/fonts -name *.ttf
             ls -la
             yarn test
+  # publish:
+  #   name: Publish
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - build-wasm
+  #     - test-macOS-windows-binding
+  #     - test-linux-x64-gnu-binding
+  #     - test-linux-x64-musl-binding
+  #     - test-linux-aarch64-gnu-binding
+  #     - test-linux-aarch64-musl-binding
+  #     - test-linux-arm-gnueabihf-binding
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup node
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 18
+  #         check-latest: true
+  #         cache: yarn
+  #     - name: Install dependencies
+  #       run: yarn install
+  #     - name: Download all artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         path: artifacts
+  #     - name: List artifacts
+  #       run: ls -R ./artifacts
+  #     - name: Move Wasm artifacts
+  #       run: mv -f ./artifacts/wasm32/*.wasm ./wasm
+  #     - name: List Wasm packages
+  #       run: |
+  #         ls -R ./wasm
+  #         ls -lt ./wasm/index_bg.wasm
+  #     - name: Move Node.js artifacts
+  #       run: yarn artifacts
+  #     - name: List node packages
+  #       run: ls -R ./npm
+  #       shell: bash
+  #     - name: Publish to npm packages
+  #       run: |
+  #         if git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$";
+  #         then
+  #           echo "Publishing node packages"
+  #           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+  #           npm publish --access public
 
-  publish:
-    name: Publish
-    runs-on: ubuntu-latest
-    needs:
-      - build-wasm
-      - test-macOS-windows-binding
-      - test-linux-x64-gnu-binding
-      - test-linux-x64-musl-binding
-      - test-linux-aarch64-gnu-binding
-      - test-linux-aarch64-musl-binding
-      - test-linux-arm-gnueabihf-binding
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          check-latest: true
-          cache: yarn
-      - name: Install dependencies
-        run: yarn install
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-      - name: List artifacts
-        run: ls -R ./artifacts
+  #           echo "Publishing Wasm packages"
+  #           cd wasm
+  #           npm publish --access public
+  #         elif git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+";
+  #         then
+  #           echo "Publishing node packages"
+  #           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+  #           npm publish --tag next --access public
 
-      - name: Move Wasm artifacts
-        run: mv -f ./artifacts/wasm32/*.wasm ./wasm
-      - name: List Wasm packages
-        run: |
-          ls -R ./wasm
-          ls -lt ./wasm/index_bg.wasm
-
-      - name: Move Node.js artifacts
-        run: yarn artifacts
-      - name: List node packages
-        run: ls -R ./npm
-        shell: bash
-
-      - name: Publish to npm packages
-        run: |
-          if git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$";
-          then
-            echo "Publishing node packages"
-            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-            npm publish --access public
-
-            echo "Publishing Wasm packages"
-            cd wasm
-            npm publish --access public
-          elif git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+";
-          then
-            echo "Publishing node packages"
-            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-            npm publish --tag next --access public
-
-            echo "Publishing Wasm packages"
-            cd wasm
-            npm publish --tag next --access public
-          else
-            echo "Not a release, skipping publish"
-          fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #           echo "Publishing Wasm packages"
+  #           cd wasm
+  #           npm publish --tag next --access public
+  #         else
+  #           echo "Not a release, skipping publish"
+  #         fi
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
