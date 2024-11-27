@@ -317,9 +317,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js@workspace:.":
+"@resvg-forknotforpublish/resvg-js-forknotforpublish@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@resvg/resvg-js@workspace:."
+  resolution: "@resvg-forknotforpublish/resvg-js-forknotforpublish@workspace:."
   dependencies:
     "@napi-rs/cli": ^2.18.0
     "@swc-node/register": ^1.9.0
