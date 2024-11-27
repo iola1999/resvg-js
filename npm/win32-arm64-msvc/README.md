@@ -1,3 +1,3 @@
-# `@resvg/resvg-js-win32-arm64-msvc`
+# `@resvg-forknotforpublish/resvg-js-forknotforpublish-win32-arm64-msvc`
 
-This is the **aarch64-pc-windows-msvc** binary for `@resvg/resvg-js`
+This is the **aarch64-pc-windows-msvc** binary for `@resvg-forknotforpublish/resvg-js-forknotforpublish`

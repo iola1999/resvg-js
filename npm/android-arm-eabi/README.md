@@ -1,3 +1,3 @@
-# `@resvg/resvg-js-android-arm-eabi`
+# `@resvg-forknotforpublish/resvg-js-forknotforpublish-android-arm-eabi`
 
-This is the **armv7-linux-androideabi** binary for `@resvg/resvg-js`
+This is the **arm-linux-androideabi** binary for `@resvg-forknotforpublish/resvg-js-forknotforpublish`
